@@ -3,10 +3,12 @@
   <Metadata>
     <Identity Id="e0256b82-236c-435f-a27d-7d9c9281a20a" Version="1.0" Language="en-US" Publisher="James Sinclair" />
     <DisplayName>JoinLines</DisplayName>
-    <Description xml:space="preserve">Allows joining of single and multiple lines in the Text Editor via a context menu entry or a keyboard shortcut</Description>
+    <Description xml:space="preserve">Allows joining of single and multiple lines in the Text Editor via the context menu (right click) or a keyboard shortcut (Alt+J)</Description>
+    <MoreInfo>https://github.com/JamesASinclair/JoinLines</MoreInfo>
     <License>LICENCE.txt</License>
     <Icon>JoinLinesPackage.ico</Icon>
-    <Tags>join line lines</Tags>
+    <PreviewImage>JoinLinesPreview.png</PreviewImage>
+    <Tags>join merge line lines</Tags>
   </Metadata>
   <Installation>
     <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[14.0]" />

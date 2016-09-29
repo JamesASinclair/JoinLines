@@ -36,8 +36,7 @@
          group as the part of a menu contained between two lines. The parent of a group
          must be a menu. -->
     <Groups>
-      <Group guid="guidJoinLinesPackageCmdSet" id="MyMenuGroup" priority="0x0600">
-        <!--<Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS"/>-->
+      <Group guid="guidJoinLinesPackageCmdSet" id="MyMenuGroup" priority="0x0500">
         <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_CODEWIN"/>
       </Group>
     </Groups>
@@ -57,7 +56,7 @@
         <Parent guid="guidJoinLinesPackageCmdSet" id="MyMenuGroup" />
         <Icon guid="guidImages" id="bmpPic1" />
         <Strings>
-          <ButtonText>JoinLines</ButtonText>
+          <ButtonText>Join Lines</ButtonText>
         </Strings>
       </Button>
     </Buttons>
@@ -74,7 +73,6 @@
   </Commands>
 
   <KeyBindings>
-    <!--<KeyBinding guid="guidJoinLinesPackageCmdSet" id="JoinLinesId" editor="guidVSStd97" key1="J" mod1="Control" mod2="Shift" />-->
     <KeyBinding guid="guidJoinLinesPackageCmdSet" id="JoinLinesId" editor="guidVSStd97" key1="J" mod1="Alt" />
   </KeyBindings>
 
