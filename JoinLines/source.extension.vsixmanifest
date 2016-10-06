@@ -6,8 +6,8 @@
     <Description xml:space="preserve">Allows joining of single and multiple lines in the Text Editor via the context menu (right click) or a keyboard shortcut (Alt+J)</Description>
     <MoreInfo>https://github.com/JamesASinclair/JoinLines</MoreInfo>
     <License>LICENCE.txt</License>
-    <Icon>JoinLines.ico</Icon>
-    <PreviewImage>JoinLinesPreview.png</PreviewImage>
+    <Icon>Resources\JoinLines.ico</Icon>
+    <PreviewImage>Resources\JoinLinesPreview.png</PreviewImage>
     <Tags>join merge line lines</Tags>
   </Metadata>
   <Installation>
