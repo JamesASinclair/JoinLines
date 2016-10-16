@@ -11,6 +11,7 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using EnvDTE;
 using EnvDTE80;
+using JoinLines.Helpers;
 
 namespace JoinLines
 {
@@ -95,29 +96,39 @@ namespace JoinLines
         /// <param name="e">Event args.</param>
         private void MenuItemCallback(object sender, EventArgs e)
         {
-            var activeTextDocument = ActiveTextDocument;
+            var undoTransaction = new UndoTransactionHelper(ServiceProvider as JoinLinesPackage, "JoinLines");
+
+            var activeTextDocument = (ServiceProvider as JoinLinesPackage).ActiveTextDocument;
             if (activeTextDocument != null)
             {
                 var textSelection = activeTextDocument.Selection;
 
-                // If the selection has no length, try to pick up the next line.
-                if (textSelection.IsEmpty)
+                if (textSelection != null)
                 {
-                    textSelection.LineDown(true);
-                    textSelection.EndOfLine(true);
+                    undoTransaction.Run(() => JoinLine(textSelection));
                 }
-
-                const string pattern = @"[ \t]*\r?\n[ \t]*";
-                const string replacement = @" ";
-
-                // Substitute all new lines (and optional surrounding whitespace) with a single space.
-                SubstituteAllStringMatches(textSelection, pattern, replacement);
-
-                // Move the cursor forward, clearing the selection.
-                textSelection.CharRight();
             }
         }
-                
+
+        private void JoinLine(TextSelection textSelection)
+        {
+            // If the selection has no length, try to pick up the next line.
+            if (textSelection.IsEmpty)
+            {
+                textSelection.LineDown(true);
+                textSelection.EndOfLine(true);
+            }
+
+            const string pattern = @"[ \t]*\r?\n[ \t]*";
+            const string replacement = @" ";
+
+            // Substitute all new lines (and optional surrounding whitespace) with a single space.
+            SubstituteAllStringMatches(textSelection, pattern, replacement);
+
+            // Move the cursor forward, clearing the selection.
+            textSelection.CharRight();
+        }
+
         /// <summary>
         /// Substitutes all occurrences in the specified text document of the specified pattern
         /// string with the specified replacement string.
@@ -143,41 +154,6 @@ namespace JoinLines
             }
         }
 
-        /// <summary>
-        /// Gets the currently active document, otherwise null.
-        /// </summary>
-        public Document ActiveDocument
-        {
-            get
-            {
-                try
-                {
-                    return ((DTE2)ServiceProvider.GetService(typeof(DTE))).ActiveDocument;
-                }
-                catch (Exception)
-                {
-                    // If a project property page is active, accessing the ActiveDocument causes an exception.
-                    return null;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets the active text document, otherwise null.
-        /// </summary>
-        private TextDocument ActiveTextDocument => GetTextDocument(this.ActiveDocument);
-
-        /// <summary>
-        /// Attempts to get the TextDocument associated with the specified document.
-        /// </summary>
-        /// <param name="document">The document.</param>
-        /// <returns>The associated text document, otherwise null.</returns>
-        internal TextDocument GetTextDocument(Document document)
-        {
-            if (document == null)
-                return null;
-
-            return document.Object("TextDocument") as TextDocument;
-        }
+        
     }
 }

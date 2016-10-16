@@ -51,6 +51,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Helpers\OutputWindowHelper.cs" />
+    <Compile Include="Helpers\UndoTransactionHelper.cs" />
     <Compile Include="JoinLines.cs" />
     <Compile Include="JoinLinesPackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -15,6 +15,8 @@ using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.Win32;
+using EnvDTE80;
+using EnvDTE;
 
 namespace JoinLines
 {
@@ -68,6 +70,50 @@ namespace JoinLines
         {
             JoinLines.Initialize(this);
             base.Initialize();
+        }
+
+        #endregion
+
+        #region Public Properties
+
+        private DTE2 _ide;
+        public DTE2 IDE => _ide ?? (_ide = (DTE2)GetService(typeof(DTE)));
+
+        /// <summary>
+        /// Gets the currently active document, otherwise null.
+        /// </summary>
+        public Document ActiveDocument
+        {
+            get
+            {
+                try
+                {
+                    return IDE.ActiveDocument;
+                }
+                catch (Exception)
+                {
+                    // If a project property page is active, accessing the ActiveDocument causes an exception.
+                    return null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets the active text document, otherwise null.
+        /// </summary>
+        public TextDocument ActiveTextDocument => GetTextDocument(this.ActiveDocument);
+
+        /// <summary>
+        /// Attempts to get the TextDocument associated with the specified document.
+        /// </summary>
+        /// <param name="document">The document.</param>
+        /// <returns>The associated text document, otherwise null.</returns>
+        internal TextDocument GetTextDocument(Document document)
+        {
+            if (document == null)
+                return null;
+
+            return document.Object("TextDocument") as TextDocument;
         }
 
         #endregion
