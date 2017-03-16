@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="e0256b82-236c-435f-a27d-7d9c9281a20a" Version="0.2" Language="en-US" Publisher="James Sinclair" />
+    <Identity Id="e0256b82-236c-435f-a27d-7d9c9281a20a" Version="0.3" Language="en-US" Publisher="James Sinclair" />
     <DisplayName>JoinLines</DisplayName>
     <Description xml:space="preserve">Allows joining of single and multiple lines in the Text Editor via the context menu (right click) or a keyboard shortcut (Alt+J)</Description>
     <MoreInfo>https://github.com/JamesASinclair/JoinLines</MoreInfo>
@@ -11,7 +11,7 @@
     <Tags>join merge line lines</Tags>
   </Metadata>
   <Installation>
-    <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[14.0]" />
+    <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[14.0,15.0]" />
   </Installation>
   <Dependencies>
     <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
@@ -20,4 +20,7 @@
   <Assets>
     <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
   </Assets>
+  <Prerequisites>
+    <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[15.0.26208.0,16.0)" DisplayName="Visual Studio core editor" />
+  </Prerequisites>
 </PackageManifest>
