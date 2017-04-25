@@ -12,6 +12,7 @@ using Microsoft.VisualStudio.Shell.Interop;
 using EnvDTE;
 using EnvDTE80;
 using JoinLines.Helpers;
+using System.Text.RegularExpressions;
 
 namespace JoinLines
 {
@@ -119,41 +120,21 @@ namespace JoinLines
                 textSelection.EndOfLine(true);
             }
 
+            const string fluentPattern = @"[ \t]*\r?\n[ \t]*\.";
             const string pattern = @"[ \t]*\r?\n[ \t]*";
-            const string replacement = @" ";
 
-            // Substitute all new lines (and optional surrounding whitespace) with a single space.
-            SubstituteAllStringMatches(textSelection, pattern, replacement);
+            var selection = textSelection.Text;
 
+            // do regex replace for fluent style
+            selection = Regex.Replace(selection, fluentPattern, ".");
+
+            // do regex replace for everything else
+            selection = Regex.Replace(selection, pattern, " ");
+
+            textSelection.Text = selection;
+            
             // Move the cursor forward, clearing the selection.
             textSelection.CharRight();
         }
-
-        /// <summary>
-        /// Substitutes all occurrences in the specified text document of the specified pattern
-        /// string with the specified replacement string.
-        /// </summary>
-        /// <param name="textDocument">The text document.</param>
-        /// <param name="patternString">The pattern string.</param>
-        /// <param name="replacementString">The replacement string.</param>
-        internal static void SubstituteAllStringMatches(TextSelection textDocument, string patternString, string replacementString)
-        {
-            TextRanges dummy = null;
-            int lastCount = -1;
-            while (textDocument.ReplacePattern(patternString, replacementString, (int)(vsFindOptions.vsFindOptionsRegularExpression | vsFindOptions.vsFindOptionsMatchInHiddenText), ref dummy))
-            {
-                // it is possible that the replacements aren't actually being done. In such a case,
-                // we can detect the situation by seeing if the count always remains the same, and
-                // if so exiting early.
-                if (lastCount == dummy.Count)
-                {
-                    //WarningWriteLine("Forced a break out of TextDocumentHelper's SubstituteAllStringMatches for a document.");
-                    break;
-                }
-                lastCount = dummy.Count;
-            }
-        }
-
-        
     }
 }
